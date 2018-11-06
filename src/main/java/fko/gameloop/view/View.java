@@ -1,6 +1,7 @@
 package fko.gameloop.view;
 
 import fko.gameloop.controller.Controller;
+import fko.gameloop.gameloop.FixedStepsGameLoop;
 import fko.gameloop.model.Model;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -17,8 +18,11 @@ public class View {
   private static final Logger LOG = LoggerFactory.getLogger(View.class);
 
   private final Pane root;
+  private Model model;
+  private double lastModelTime;
 
   public View(final Model model, final Controller controller) {
+    this.model = model;
     LOG.info("Creating View...");
 
     Button startButton = new Button();
@@ -43,6 +47,18 @@ public class View {
 
   public void update() {
 
+    final double modelTimeDelta = model.getTimeInWorld() - lastModelTime;
+    lastModelTime = model.getTimeInWorld();
+
+    if (modelTimeDelta > FixedStepsGameLoop.TIME_STEP) {
+      LOG.warn("FAST");
+    } else if (modelTimeDelta < FixedStepsGameLoop.TIME_STEP) {
+      LOG.warn("SLOW");
+    } else {
+      LOG.info("CONSTANT");
+    }
+
+    LOG.info("Model time: "+lastModelTime);
   }
 }
 

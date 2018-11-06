@@ -1,6 +1,7 @@
 package fko.gameloop;
 
 import fko.gameloop.controller.Controller;
+import fko.gameloop.gameloop.FixedStepsGameLoop;
 import fko.gameloop.gameloop.GameLoop;
 import fko.gameloop.gameloop.VariableStepsGameLoop;
 import fko.gameloop.model.Model;
@@ -43,7 +44,8 @@ public class GameLoopFramework extends Application {
     Model model = new Model();
     Controller controller = new Controller(model);
     View view = new View(model, controller);
-    GameLoop gameloop = new VariableStepsGameLoop(model, view);
+    //GameLoop gameloop = new VariableStepsGameLoop(model, view);
+    GameLoop gameloop = new FixedStepsGameLoop(model, view);
     controller.setGameLoop(gameloop);
 
     // set initial window title - can be extended in controller
